@@ -1,0 +1,117 @@
+---
+API: 3
+OpenSesame: 4.0.5
+Platform: nt
+---
+set width 1024
+set title "New experiment"
+set subject_parity even
+set subject_nr 0
+set start experiment
+set sound_sample_size -16
+set sound_freq 48000
+set sound_channels 2
+set sound_buf_size 1024
+set round_decimals 2
+set height 768
+set fullscreen no
+set form_clicks no
+set foreground white
+set font_underline no
+set font_size 18
+set font_italic no
+set font_family mono
+set font_bold no
+set experiment_path None
+set disable_garbage_collection yes
+set description "The main experiment item"
+set canvas_backend psycho
+set background "#3d3846"
+
+define sequence experiment
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run new_loop True
+
+define inline_script highlight_script
+	set description "Executes Python code"
+	___run__
+	main()
+	__end__
+	___prepare__
+	import tkinter as tk
+	from tkinter import Button
+	from tkinter import INSERT, END
+	
+	
+	class Word_by_word_highlighter:
+	    def __init__(self, root, text):
+	        self.root = root
+	        self.text = text
+	        self.start = 1.0
+	        self.TKtext = tk.Text(root)
+	        self.TKtext.insert(INSERT, self.text)
+	        self.TKtext.pack(expand=True)
+	        self.TKtext.tag_config("highlight", background="red")
+	
+	    def start_highlighting(self):
+	        words = self.text.split()
+	        for word in words:
+	            self.start = self.TKtext.search(word, self.start, nocase=1, stopindex=END)
+	            if self.start:
+	                end = '%s+%dc' % (self.start, len(word))
+	                self.TKtext.after(200, self.add_highlight(end))
+	                self.TKtext.update()
+	                self.TKtext.after(5, self.remove_highlight(end))
+	                self.start = end
+	
+	    def add_highlight(self, end):
+	        self.TKtext.tag_add('highlight', self.start, end)
+	
+	    def remove_highlight(self, end):
+	        self.TKtext.tag_remove('highlight', self.start, end)
+	        
+	    def quit():
+	        global root
+	        root.quit()
+	
+	def main():
+	    root = tk.Tk()
+	    root.title("Highlighting")
+	
+	    text = "Is this working? Lets check it out. This is a test"
+	
+	    word_higlihter = Word_by_word_highlighter(root, text)
+	    root.after(100, word_higlihter.start_highlighting)
+	    root.mainloop()
+	    root.after(100, word_higlihter.quit)
+	__end__
+
+define loop new_loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 2
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 paragraph "Test sentance"
+	setcycle 0 new_column_1 ""
+	setcycle 1 paragraph "pargraph getting longer"
+	setcycle 1 new_column_1 ""
+	run new_sequence
+
+define sequence new_sequence
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run new_sketchpad True
+	run highlight_script True
+
+define sketchpad new_sketchpad
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=True text="" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=True text="[var.paragraph]" x=0 y=0 z_index=0
+
