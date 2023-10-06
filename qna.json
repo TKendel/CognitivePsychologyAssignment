@@ -1,0 +1,31 @@
+{
+    "comperhnesion_paragraphs": [
+        {
+            "question_1": [
+                {
+                    "paragraph": "Once upon a time in a faraway land, there lived a curious little bunny named Benjamin. Benjamin had the softest fur you could ever imagine, and his big, floppy ears twitched with excitement whenever he discovered something new.",
+                    "question": "What was the name of the bunny?",
+                    "possible_anwsers": ["Benny", "Benjamin", "Ben"],
+                    "anwser": 1
+                }
+            ],
+            "question_2": [
+                {
+                    "paragraph": "One sunny morning, Benjamin hopped into the meadow, his favorite place in the whole wide world. The meadow was filled with colorful wildflowers and buzzing bees. It was a perfect day for adventure!",
+                    "question": "What type of flower was the meadow filled with?",
+                    "possible_anwsers": ["Wildflower", "Wold rose", "Wedelia"],
+                    "anwser": 0
+                }
+            ],
+            "question_3": [
+                {
+                    "paragraph": "As Benjamin hopped along, he noticed a shiny object hidden among the tall grass. It was a sparkling golden key! Benjamin's heart raced with curiosity. 'I wonder where this key leads?' he thought, his nose twitching with excitement. And so, with the golden key in his paw, Benjamin's grand adventure began.",
+                    "question": "What was the item Benjamin found?",
+                    "possible_anwsers": ["Gold", "Key", "Sparkels"],
+                    "anwser": 1
+                }
+            ]
+        }
+    ],
+    "paragraphs": ["This is just a placeholder for now, add proper text 1", "This is just a placeholder for now, add proper text 2", "This is just a placeholder for now, add proper text 3"]
+}
