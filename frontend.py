@@ -87,7 +87,8 @@ def highlight_screen():
     start = st.button('start')
     if start == True:
         start_time = time.time()
-        highlight_sentence(paragraph, 2)
+        highlight_sentence(paragraph, .5)
+        st.markdown('##')
         st.button('done', on_click=stop_timer,
                   args=(start_time, ))
 
@@ -133,8 +134,7 @@ if 'num_of_trials' not in st.session_state:
     st.session_state['current_trial'] = 1
 
 if st.session_state['state'].value == 2:  # HIGHLIGHT_PARAGRAPH
-
-    plain_screen()
+    highlight_screen()
 
 if st.session_state['state'].value == 4:  # QUESTION
     question_screen()
