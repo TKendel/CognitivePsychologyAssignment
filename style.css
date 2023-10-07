@@ -17,3 +17,9 @@
 .red {
     background-color: lightcoral;
 }
+
+.underline {
+    text-decoration: underline;
+    text-decoration-color: lightcoral;
+    /* lightskyblue */
+}
