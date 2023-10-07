@@ -5,6 +5,8 @@ import time
 import random
 from enum import Enum
 
+NUM_OF_TRIALS = 3
+
 
 def local_css(file_name):
     with open(file_name) as f:
@@ -18,12 +20,13 @@ def highlight_word(text, delay):
     split_text = text.split(' ')
     join_key = ' '
     for i in range(len(split_text)):
-        highlighted_word = f"<span class='highlight red'>{split_text[i]}</span>"
+        highlighted_word = f"<span class='underline'> {split_text[i]} </span>"
         updated_text = "<div>" + \
             join_key.join(split_text[:i]) + highlighted_word + \
             join_key.join(split_text[i+1:]) + "</div>"
 
-        placeholder.markdown(updated_text, unsafe_allow_html=True)
+        placeholder.markdown(
+            updated_text, unsafe_allow_html=True)
         time.sleep(delay)
 
 
@@ -33,7 +36,11 @@ def highlight_sentence(text, delay):
     split_text = text.split('.')
     join_key = '.'
     for i in range(len(split_text)-1):
-        highlighted_word = f"<span class='highlight red'>{split_text[i]}</span>"
+        optional_period = ''
+        if i != 0:
+            optional_period = '.'
+
+        highlighted_word = f"{optional_period}<span class='underline'>{split_text[i]}.</span>"
         updated_text = "<div>" + \
             join_key.join(split_text[:i]) + highlighted_word + \
             join_key.join(split_text[i+1:]) + "</div>"
@@ -61,9 +68,15 @@ def choose_paragraph():
 
 def trial_type():
     random_number = random.randint(1, 10)
+    td = st.session_state['current_trial_data']
+
     if random_number > 5:
+        td.set_paragraph_type('highlighted')
+        st.session_state['current_trial_data'] = td
         return State.HIGHLIGHT_PARAGRAPH
 
+    td.set_paragraph_type('plain')
+    st.session_state['current_trial_data'] = td
     return State.PLAIN_PARAGRAPH
 
 
@@ -132,7 +145,8 @@ def highlight_screen():
     start = st.button('start')
     if start == True:
         start_time = time.time()
-        highlight_sentence(paragraph, 4.5)
+        # highlight_word(paragraph, 0.5)
+        highlight_sentence(paragraph, 5)
         st.markdown('##')
         st.button('done', on_click=stop_timer,
                   args=(start_time, ))
@@ -161,6 +175,29 @@ def plain_screen():
                   args=(start_time, ))
 
 
+def generate_table():
+    arr_trial_num = []
+    arr_elapsed_time = []
+    arr_correct_response = []
+    arr_paragraph_type = []
+    for i in range(len(st.session_state.response_data)):
+        tr = st.session_state['response_data'][i]
+        arr_trial_num.append(tr.trial_num)
+        arr_elapsed_time.append(tr.elapsed_time)
+        arr_correct_response.append(tr.correct_response)
+        arr_paragraph_type.append(tr.paragraph_type)
+        # st.write(
+        #     f'{tr.trial_num} - {tr.elapsed_time} - {tr.correct_response} - {tr.paragraph_type}')
+    return pd.DataFrame(
+        {
+            "trial": arr_trial_num,
+            "elapsed time": arr_elapsed_time,
+            "correct response": arr_correct_response,
+            "paragraph type": arr_paragraph_type
+        }
+    )
+
+
 class State(Enum):
     INTRO = 1
     HIGHLIGHT_PARAGRAPH = 2
@@ -174,12 +211,16 @@ class TrialData():
         self.elapsed_time = None
         self.correct_response = None
         self.trial_num = trial_num
+        self.paragraph_type = None
 
     def set_elapsed_time(self, time):
         self.elapsed_time = time
 
     def set_correct_response(self, response):
         self.correct_response = response
+
+    def set_paragraph_type(self, par_type):
+        self.paragraph_type = par_type
 
 
 if 'response_data' not in st.session_state:
@@ -197,7 +238,7 @@ if 'state' not in st.session_state:
     intro_screen()
 
 if 'num_of_trials' not in st.session_state:
-    st.session_state['num_of_trials'] = 5
+    st.session_state['num_of_trials'] = NUM_OF_TRIALS
     st.session_state['current_trial'] = 1
     td = TrialData(1)
     st.session_state['current_trial_data'] = td
@@ -212,9 +253,20 @@ if st.session_state['state'].value == 4:  # QUESTION
     question_screen()
 
 if st.session_state['state'].value == 5:  # END
+    st.balloons()
     st.text("That's the end folks! ;)")
+    df = generate_table()
+
+    st.dataframe(df, use_container_width=True)
+
+    csv = df.to_csv(index=False).encode('utf-8')
+
+    st.download_button(
+        "Press to Download",
+        csv,
+        "file.csv",
+        "text/csv",
+        key='download-csv'
+    )
 
 # st.write(st.session_state.state)
-# for i in range(len(st.session_state.response_data)):
-#     tr = st.session_state['response_data'][i]
-#     st.write(f'{tr.trial_num} - {tr.elapsed_time} - {tr.correct_response}')

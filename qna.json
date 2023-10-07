@@ -130,7 +130,7 @@
         },
         {
             "text": "The concept of 'checks and balances' is a fundamental principle in the United States government's system of separation of powers. It involves the distribution of governmental authority among three branches: the executive, legislative, and judicial branches. Each branch has distinct powers and responsibilities, and they are designed to limit the influence and prevent abuses of power by any one branch. For example, the legislative branch (Congress) can pass laws, but the executive branch (the President) can veto them, and the judicial branch (the courts) can declare laws unconstitutional. This system of checks and balances helps ensure a balance of power and protects citizens' rights.",
-            "question": "What is the primary purpose of the concept of 'checks and balances' in the U.S. government?",
+            "question": "What is the primary purpose of the concept of 'checks and balances' in the US government?",
             "possible_anwsers": [
                 "To limit the influence and prevent abuses of power by any one branch",
                 "To establish a monarchy",
@@ -140,7 +140,7 @@
             "answer": 3
         },
         {
-            "text": "The American Civil Rights Movement of the 1950s and 1960s was a pivotal period in U.S. history. It was marked by a series of protests, demonstrations, and legal actions aimed at ending racial segregation and discrimination against African Americans. Prominent leaders like Martin Luther King Jr. advocated for nonviolent civil disobedience as a means to achieve equal rights. The movement eventually led to the passage of significant civil rights legislation, including the Civil Rights Act of 1964, which outlawed discrimination based on race, color, religion, sex, or national origin.",
+            "text": "The American Civil Rights Movement of the 1950s and 1960s was a pivotal period in US history. It was marked by a series of protests, demonstrations, and legal actions aimed at ending racial segregation and discrimination against African Americans. Prominent leaders like Martin Luther King Jr advocated for nonviolent civil disobedience as a means to achieve equal rights. The movement eventually led to the passage of significant civil rights legislation, including the Civil Rights Act of 1964, which outlawed discrimination based on race, color, religion, sex, or national origin.",
             "question": "Which leader is known for advocating nonviolent civil disobedience during the American Civil Rights Movement?",
             "possible_anwsers": [
                 "Malcolm X",
