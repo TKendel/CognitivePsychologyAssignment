@@ -47,6 +47,7 @@ def load_data():
     data = json.loads(f.read())
     if 'data' not in st.session_state:
         st.session_state['data'] = data["updated_paragraphs"]
+        st.session_state['instructions'] = data["instructions"]
     f.close()
 
 
@@ -58,11 +59,21 @@ def choose_paragraph():
     st.session_state['current_par'] = rand_paragraph
 
 
+def trial_type():
+    random_number = random.randint(1, 10)
+    if random_number > 5:
+        return State.HIGHLIGHT_PARAGRAPH
+
+    return State.PLAIN_PARAGRAPH
+
+
 def update_state():
     if st.session_state['state'].value == 1:  # INTRO
         choose_paragraph()
-        st.session_state['state'] = State.HIGHLIGHT_PARAGRAPH
+        st.session_state['state'] = trial_type()
     elif st.session_state['state'].value == 2:  # HIGHLIGHT_PARAGRAPH
+        st.session_state['state'] = State.QUESTION
+    elif st.session_state['state'].value == 3:  # PLAIN_PARAGRAPH
         st.session_state['state'] = State.QUESTION
     elif st.session_state['state'].value == 4:  # QUESTION
         if st.session_state['current_trial'] == st.session_state['num_of_trials']:
@@ -80,14 +91,16 @@ def update_state():
             st.session_state['current_trial_data'] = TrialData(ct_num + 1)
             st.session_state['current_trial'] = ct_num + 1
             choose_paragraph()
-            st.session_state['state'] = State.HIGHLIGHT_PARAGRAPH
+            st.session_state['state'] = trial_type()
     elif st.session_state['state'].value == 5:  # END
         st.session_state['state'] = State.INTRO
 
 
 def intro_screen():
     st.header('Welcome to the dyslexia test!')
-    st.text("These are the instructions, read them!")
+    instructions = st.session_state['instructions']
+    for i in range(len(instructions)):
+        st.markdown(instructions[i])
     st.button('I understand', on_click=update_state)
 
 
@@ -119,7 +132,7 @@ def highlight_screen():
     start = st.button('start')
     if start == True:
         start_time = time.time()
-        highlight_sentence(paragraph, .5)
+        highlight_sentence(paragraph, 4.5)
         st.markdown('##')
         st.button('done', on_click=stop_timer,
                   args=(start_time, ))
@@ -184,13 +197,16 @@ if 'state' not in st.session_state:
     intro_screen()
 
 if 'num_of_trials' not in st.session_state:
-    st.session_state['num_of_trials'] = 3
+    st.session_state['num_of_trials'] = 5
     st.session_state['current_trial'] = 1
     td = TrialData(1)
     st.session_state['current_trial_data'] = td
 
 if st.session_state['state'].value == 2:  # HIGHLIGHT_PARAGRAPH
     highlight_screen()
+
+if st.session_state['state'].value == 3:  # PLAIN_PARAGRAPH
+    plain_screen()
 
 if st.session_state['state'].value == 4:  # QUESTION
     question_screen()
@@ -199,6 +215,6 @@ if st.session_state['state'].value == 5:  # END
     st.text("That's the end folks! ;)")
 
 # st.write(st.session_state.state)
-for i in range(len(st.session_state.response_data)):
-    tr = st.session_state['response_data'][i]
-    st.write(f'{tr.trial_num} - {tr.elapsed_time} - {tr.correct_response}')
+# for i in range(len(st.session_state.response_data)):
+#     tr = st.session_state['response_data'][i]
+#     st.write(f'{tr.trial_num} - {tr.elapsed_time} - {tr.correct_response}')
