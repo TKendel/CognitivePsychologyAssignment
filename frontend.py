@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import json
 import time
+import random
+from enum import Enum
 
 
 def local_css(file_name):
@@ -48,34 +50,97 @@ def load_data():
     f.close()
 
 
-if 'started' in st.session_state and st.session_state['started'] == True:
-    load_data()  # data now in st.session_state.data
-    data = st.session_state['data']["comperhnesion_paragraphs"][0]
-    paragraphs = data['question_1'][0]['paragraph']
-    start = st.button('start')
-    if start == True:
-        highlight_sentence(paragraphs, .5)
-        st.markdown('#')
-        done = st.button('done')
-        if done == True:
-            st.session_state['done'] = True
-            st.session_state['started'] = False
-            st.session_state['question'] = True
-            st.rerun()
+def update_state():
+    if st.session_state['state'].value == 1:  # INTRO
+        st.session_state['state'] = State.HIGHLIGHT_PARAGRAPH
+    elif st.session_state['state'].value == 2:  # HIGHLIGHT_PARAGRAPH
+        st.session_state['state'] = State.QUESTION
+    elif st.session_state['state'].value == 4:  # QUESTION
+        if st.session_state['current_trial'] == st.session_state['num_of_trials']:
+            st.session_state['state'] = State.END
+        else:
+            st.session_state['current_trial'] += 1
+            st.session_state['state'] = State.HIGHLIGHT_PARAGRAPH
+    elif st.session_state['state'].value == 5:  # END
+        st.session_state['state'] = State.INTRO
 
-if 'question' in st.session_state and st.session_state['question'] == True:
+
+def intro_screen():
+    st.header('Welcome to the dyslexia test!')
+    st.text("These are the instructions, read them!")
+    st.button('I understand', on_click=update_state)
+
+
+def question_screen():
     data = st.session_state['data']["comperhnesion_paragraphs"][0]
     question = data['question_1'][0]['question']
     possible_answers = data['question_1'][0]['possible_anwsers']
-    print(question, possible_answers)
-    st.text(question)
-    st.text(possible_answers)
+    ans = st.radio(question, possible_answers)
+    print(ans)
+    st.button('submit', on_click=update_state)
 
 
-if 'started' not in st.session_state:
-    st.header('Welcome to the dyslexia test!')
-    st.text("These are the instructions, read them!")
-    understand = st.button('I understand')
-    if understand == True:
-        st.session_state['started'] = True
-        st.rerun()
+def highlight_screen():
+    load_data()  # data now in st.session_state.data
+    data = st.session_state['data']["comperhnesion_paragraphs"][0]
+    paragraph = data['question_1'][0]['paragraph']
+    start = st.button('start')
+    if start == True:
+        start_time = time.time()
+        highlight_sentence(paragraph, 2)
+        st.button('done', on_click=stop_timer,
+                  args=(start_time, ))
+
+
+def stop_timer(start_time):
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    et_curr = st.session_state['elapsed_time']
+    et_curr.append(elapsed_time)
+    st.session_state['elapsed_time'] = et_curr
+    update_state()
+
+
+def plain_screen():
+    load_data()  # data now in st.session_state.data
+    data = st.session_state['data']["comperhnesion_paragraphs"][0]
+    paragraph = data['question_1'][0]['paragraph']
+    start = st.button('start')
+    if start == True:
+        start_time = time.time()
+        st.markdown(paragraph)
+        st.button('done', on_click=stop_timer,
+                  args=(start_time, ))
+
+
+class State(Enum):
+    INTRO = 1
+    HIGHLIGHT_PARAGRAPH = 2
+    PLAIN_PARAGRAPH = 3
+    QUESTION = 4
+    END = 5
+
+
+if 'elapsed_time' not in st.session_state:
+    st.session_state['elapsed_time'] = []
+
+if 'state' not in st.session_state:
+    st.session_state['state'] = State.INTRO
+    intro_screen()
+
+if 'num_of_trials' not in st.session_state:
+    st.session_state['num_of_trials'] = 3
+    st.session_state['current_trial'] = 1
+
+if st.session_state['state'].value == 2:  # HIGHLIGHT_PARAGRAPH
+
+    plain_screen()
+
+if st.session_state['state'].value == 4:  # QUESTION
+    question_screen()
+
+if st.session_state['state'].value == 5:  # END
+    st.text("That's the end folks! ;)")
+
+# st.write(st.session_state.state)
+st.write(st.session_state.elapsed_time)
