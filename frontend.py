@@ -46,20 +46,40 @@ def load_data():
     f = open('qna.json')
     data = json.loads(f.read())
     if 'data' not in st.session_state:
-        st.session_state['data'] = data
+        st.session_state['data'] = data["updated_paragraphs"]
     f.close()
+
+
+def choose_paragraph():
+    paragraph_options = st.session_state['data'].copy()
+    random.shuffle(paragraph_options)
+    rand_paragraph = paragraph_options.pop()
+    st.session_state['data'] = paragraph_options
+    st.session_state['current_par'] = rand_paragraph
 
 
 def update_state():
     if st.session_state['state'].value == 1:  # INTRO
+        choose_paragraph()
         st.session_state['state'] = State.HIGHLIGHT_PARAGRAPH
     elif st.session_state['state'].value == 2:  # HIGHLIGHT_PARAGRAPH
         st.session_state['state'] = State.QUESTION
     elif st.session_state['state'].value == 4:  # QUESTION
         if st.session_state['current_trial'] == st.session_state['num_of_trials']:
+            td = st.session_state['current_trial_data']
+            rd = st.session_state['response_data'].copy()
+            rd.append(td)
+            st.session_state['response_data'] = rd
             st.session_state['state'] = State.END
         else:
-            st.session_state['current_trial'] += 1
+            td = st.session_state['current_trial_data']
+            rd = st.session_state['response_data'].copy()
+            rd.append(td)
+            st.session_state['response_data'] = rd
+            ct_num = st.session_state['current_trial']
+            st.session_state['current_trial_data'] = TrialData(ct_num + 1)
+            st.session_state['current_trial'] = ct_num + 1
+            choose_paragraph()
             st.session_state['state'] = State.HIGHLIGHT_PARAGRAPH
     elif st.session_state['state'].value == 5:  # END
         st.session_state['state'] = State.INTRO
@@ -71,19 +91,31 @@ def intro_screen():
     st.button('I understand', on_click=update_state)
 
 
+def check_correct_response(response, correct_response, possible_ans):
+    correct = False
+    if response == correct_response:
+        correct = True
+
+    td = st.session_state['current_trial_data']
+    td.set_correct_response(correct)
+    st.session_state['current_trial_data'] = td
+
+    update_state()
+
+
 def question_screen():
-    data = st.session_state['data']["comperhnesion_paragraphs"][0]
-    question = data['question_1'][0]['question']
-    possible_answers = data['question_1'][0]['possible_anwsers']
+    current_par = st.session_state['current_par']
+    question = current_par['question']
+    possible_answers = current_par['possible_anwsers']
+    correct_ans = current_par['answer']
     ans = st.radio(question, possible_answers)
-    print(ans)
-    st.button('submit', on_click=update_state)
+    st.button('submit', on_click=check_correct_response,
+              args=(ans, possible_answers[correct_ans], possible_answers))
 
 
 def highlight_screen():
-    load_data()  # data now in st.session_state.data
-    data = st.session_state['data']["comperhnesion_paragraphs"][0]
-    paragraph = data['question_1'][0]['paragraph']
+    current_par = st.session_state['current_par']
+    paragraph = current_par['text']
     start = st.button('start')
     if start == True:
         start_time = time.time()
@@ -99,13 +131,15 @@ def stop_timer(start_time):
     et_curr = st.session_state['elapsed_time']
     et_curr.append(elapsed_time)
     st.session_state['elapsed_time'] = et_curr
+    td = st.session_state['current_trial_data']
+    td.set_elapsed_time(elapsed_time)
+    st.session_state['current_trial_data'] = td
     update_state()
 
 
 def plain_screen():
-    load_data()  # data now in st.session_state.data
-    data = st.session_state['data']["comperhnesion_paragraphs"][0]
-    paragraph = data['question_1'][0]['paragraph']
+    current_par = st.session_state['current_par']
+    paragraph = current_par['text']
     start = st.button('start')
     if start == True:
         start_time = time.time()
@@ -122,16 +156,38 @@ class State(Enum):
     END = 5
 
 
+class TrialData():
+    def __init__(self, trial_num):
+        self.elapsed_time = None
+        self.correct_response = None
+        self.trial_num = trial_num
+
+    def set_elapsed_time(self, time):
+        self.elapsed_time = time
+
+    def set_correct_response(self, response):
+        self.correct_response = response
+
+
+if 'response_data' not in st.session_state:
+    st.session_state['response_data'] = []
+
+if 'current_par' not in st.session_state:
+    st.session_state['current_par'] = {}
+
 if 'elapsed_time' not in st.session_state:
     st.session_state['elapsed_time'] = []
 
 if 'state' not in st.session_state:
+    load_data()  # data now in st.session_state.data
     st.session_state['state'] = State.INTRO
     intro_screen()
 
 if 'num_of_trials' not in st.session_state:
     st.session_state['num_of_trials'] = 3
     st.session_state['current_trial'] = 1
+    td = TrialData(1)
+    st.session_state['current_trial_data'] = td
 
 if st.session_state['state'].value == 2:  # HIGHLIGHT_PARAGRAPH
     highlight_screen()
@@ -143,4 +199,6 @@ if st.session_state['state'].value == 5:  # END
     st.text("That's the end folks! ;)")
 
 # st.write(st.session_state.state)
-st.write(st.session_state.elapsed_time)
+for i in range(len(st.session_state.response_data)):
+    tr = st.session_state['response_data'][i]
+    st.write(f'{tr.trial_num} - {tr.elapsed_time} - {tr.correct_response}')
