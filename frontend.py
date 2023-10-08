@@ -110,7 +110,7 @@ def trial_type():
     # Make sure that if the highlighter has not been randomly picked by the end of the run to run it at least once
     if st.session_state['trial_counter'] == NUM_OF_TRIALS-1:
         random_number = 10
-    elif st.session_state['trial_counter'] == NUM_OF_TRIALS-NUM_OF_TRIALS:
+    elif st.session_state['trial_counter'] == 0:
         random_number = 1
 
     if random_number > 5:
