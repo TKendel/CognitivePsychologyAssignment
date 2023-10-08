@@ -7,6 +7,39 @@ from enum import Enum
 
 NUM_OF_TRIALS = 3
 
+hide_streamlit_style = """
+    <style>
+    div[data-testid="stToolbar"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    div[data-testid="stDecoration"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    div[data-testid="stStatusWidget"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    #MainMenu {
+    visibility: hidden;
+    height: 0%;
+    }
+    header {
+    visibility: hidden;
+    height: 0%;
+    }
+    footer {
+    visibility: hidden;
+    height: 0%;
+    }
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 
 def local_css(file_name):
     with open(file_name) as f:
@@ -20,7 +53,8 @@ def highlight_word(text, delay):
     split_text = text.split(' ')
     join_key = ' '
     for i in range(len(split_text)):
-        highlighted_word = f"<span class='underline'> {split_text[i]} </span>"
+        # highlighted_word = f"<span class='underline'> {split_text[i]} </span>"
+        highlighted_word = f"<span class='highlight red'> {split_text[i]} </span>"
         updated_text = "<div>" + \
             join_key.join(split_text[:i]) + highlighted_word + \
             join_key.join(split_text[i+1:]) + "</div>"
@@ -40,7 +74,8 @@ def highlight_sentence(text, delay):
         if i != 0:
             optional_period = '.'
 
-        highlighted_word = f"{optional_period}<span class='underline'>{split_text[i]}.</span>"
+        # highlighted_word = f"{optional_period}<span class='underline'>{split_text[i]}.</span>"
+        highlighted_word = f"{optional_period}<span class='highlight red'>{split_text[i]}.</span>"
         updated_text = "<div>" + \
             join_key.join(split_text[:i]) + highlighted_word + \
             join_key.join(split_text[i+1:]) + "</div>"
@@ -55,6 +90,7 @@ def load_data():
     if 'data' not in st.session_state:
         st.session_state['data'] = data["updated_paragraphs"]
         st.session_state['instructions'] = data["instructions"]
+        st.session_state['calibration_text'] = data["calibration_text"]
     f.close()
 
 
@@ -70,6 +106,7 @@ def trial_type():
     random_number = random.randint(1, 10)
     td = st.session_state['current_trial_data']
 
+    # TODO : if last 3 were the same, choose other by default
     if random_number > 5:
         td.set_paragraph_type('highlighted')
         st.session_state['current_trial_data'] = td
@@ -82,8 +119,7 @@ def trial_type():
 
 def update_state():
     if st.session_state['state'].value == 1:  # INTRO
-        choose_paragraph()
-        st.session_state['state'] = trial_type()
+        st.session_state['state'] = State.CALIBRATION
     elif st.session_state['state'].value == 2:  # HIGHLIGHT_PARAGRAPH
         st.session_state['state'] = State.QUESTION
     elif st.session_state['state'].value == 3:  # PLAIN_PARAGRAPH
@@ -107,6 +143,9 @@ def update_state():
             st.session_state['state'] = trial_type()
     elif st.session_state['state'].value == 5:  # END
         st.session_state['state'] = State.INTRO
+    elif st.session_state['state'].value == 6:  # CALIBRATION
+        choose_paragraph()
+        st.session_state['state'] = trial_type()
 
 
 def intro_screen():
@@ -117,7 +156,7 @@ def intro_screen():
     st.button('I understand', on_click=update_state)
 
 
-def check_correct_response(response, correct_response, possible_ans):
+def check_correct_response(response, correct_response):
     correct = False
     if response == correct_response:
         correct = True
@@ -136,14 +175,16 @@ def question_screen():
     correct_ans = current_par['answer']
     ans = st.radio(question, possible_answers)
     st.button('submit', on_click=check_correct_response,
-              args=(ans, possible_answers[correct_ans], possible_answers))
+              args=(ans, possible_answers[correct_ans]))
 
 
 def highlight_screen():
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
-    start = st.button('start')
+    placeholder = st.empty()
+    start = placeholder.button('start', disabled=False, key='1')
     if start == True:
+        placeholder.button('start', disabled=True, key='2')
         start_time = time.time()
         # highlight_word(paragraph, 0.5)
         highlight_sentence(paragraph, 5)
@@ -167,8 +208,10 @@ def stop_timer(start_time):
 def plain_screen():
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
-    start = st.button('start')
+    placeholder = st.empty()
+    start = placeholder.button('start', disabled=False, key='1')
     if start == True:
+        placeholder.button('start', disabled=True, key='2')
         start_time = time.time()
         st.markdown(paragraph)
         st.button('done', on_click=stop_timer,
@@ -198,12 +241,26 @@ def generate_table():
     )
 
 
+def calibration_screen():
+    ct = st.session_state['calibration_text']
+    # st.markdown(ct)
+    # speed = st.slider('What is a comfortable speed?', 0.05, 1.0, 0.4)
+    # highlight_word(ct, speed)
+    speed = st.slider('What is a comfortable speed?', 1.0, 6.0, 2.0)
+    auto = st.checkbox('check box to start testing different speeds')
+    is_good_speed = st.button(
+        'yes, this is a good speed', on_click=update_state)
+    if auto:
+        highlight_sentence(ct, speed)
+
+
 class State(Enum):
     INTRO = 1
     HIGHLIGHT_PARAGRAPH = 2
     PLAIN_PARAGRAPH = 3
     QUESTION = 4
     END = 5
+    CALIBRATION = 6
 
 
 class TrialData():
@@ -235,7 +292,13 @@ if 'elapsed_time' not in st.session_state:
 if 'state' not in st.session_state:
     load_data()  # data now in st.session_state.data
     st.session_state['state'] = State.INTRO
+
+
+if st.session_state['state'].value == 1:  # INTRO
     intro_screen()
+
+if st.session_state['state'].value == 6:  # CALIBRATION
+    calibration_screen()
 
 if 'num_of_trials' not in st.session_state:
     st.session_state['num_of_trials'] = NUM_OF_TRIALS
@@ -268,5 +331,6 @@ if st.session_state['state'].value == 5:  # END
         "text/csv",
         key='download-csv'
     )
+
 
 # st.write(st.session_state.state)
