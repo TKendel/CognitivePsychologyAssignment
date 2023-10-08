@@ -184,7 +184,6 @@ def highlight_screen():
     placeholder = st.empty()
     start = placeholder.button('start', disabled=False, key='1')
     speed = st.session_state['highlight_speed']
-    print(speed)
     if start == True:
         placeholder.button('start', disabled=True, key='2')
         start_time = time.time()
