@@ -91,6 +91,7 @@ def load_data():
         st.session_state['data'] = data["updated_paragraphs"]
         st.session_state['instructions'] = data["instructions"]
         st.session_state['calibration_text'] = data["calibration_text"]
+        st.session_state['trial_counter'] = 0
     f.close()
 
 
@@ -106,12 +107,18 @@ def trial_type():
     random_number = random.randint(1, 10)
     td = st.session_state['current_trial_data']
 
-    # TODO : if last 3 were the same, choose other by default
+    # Make sure that if the highlighter has not been randomly picked by the end of the run to run it at least once
+    if st.session_state['trial_counter'] == NUM_OF_TRIALS-1:
+        random_number = 10
+    elif st.session_state['trial_counter'] == NUM_OF_TRIALS-NUM_OF_TRIALS:
+        random_number = 1
+
     if random_number > 5:
         td.set_paragraph_type('highlighted')
         st.session_state['current_trial_data'] = td
         return State.HIGHLIGHT_PARAGRAPH
 
+    st.session_state['trial_counter'] += 1
     td.set_paragraph_type('plain')
     st.session_state['current_trial_data'] = td
     return State.PLAIN_PARAGRAPH
