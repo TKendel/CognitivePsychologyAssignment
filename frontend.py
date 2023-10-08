@@ -4,6 +4,7 @@ import json
 import time
 import random
 from enum import Enum
+from supabase import create_client, Client
 
 NUM_OF_TRIALS = 2
 
@@ -247,6 +248,41 @@ def update_speed(speed):
     update_state()
 
 
+def connect_to_db():
+    url = st.secrets['SUPABASE_URL']
+    key = st.secrets['SUPABASE_KEY']
+
+    supabase: Client = create_client(url, key)
+    return supabase
+
+
+def save_data():
+    client = connect_to_db()
+
+    # insert first, which generate the subject id. use this subject id for the rest of the trial records
+    tr = st.session_state['response_data'][0]
+    data, _ = client.table('responses').insert(
+        {"trial_num": tr.trial_num,
+            "reading_time": tr.elapsed_time,
+            "correct_response": tr.correct_response,
+            "paragraph_type": tr.paragraph_type,
+            "response_time": 1.0
+         }).execute()
+    subject = data[1][0]['subject']
+
+    for i in range(1, len(st.session_state.response_data)):
+        tr = st.session_state['response_data'][i]
+        data, _ = client.table('responses').insert(
+            {
+                "subject": subject,
+                "trial_num": tr.trial_num,
+                "reading_time": tr.elapsed_time,
+                "correct_response": tr.correct_response,
+                "paragraph_type": tr.paragraph_type,
+                "response_time": 1.0
+            }).execute()
+
+
 def calibration_screen():
     ct = st.session_state['calibration_text']
     # st.markdown(ct)
@@ -322,14 +358,16 @@ if st.session_state['state'].value == 4:  # QUESTION
     question_screen()
 
 if st.session_state['state'].value == 5:  # END
+    with st.spinner('saving...'):
+        save_data()
+
     st.balloons()
     st.text("That's the end folks! ;)")
-    df = generate_table()
 
+    df = generate_table()
     st.dataframe(df, use_container_width=True)
 
     csv = df.to_csv(index=False).encode('utf-8')
-
     st.download_button(
         "Press to Download",
         csv,
@@ -337,6 +375,3 @@ if st.session_state['state'].value == 5:  # END
         "text/csv",
         key='download-csv'
     )
-
-
-# st.write(st.session_state.state)
