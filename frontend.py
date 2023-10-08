@@ -73,7 +73,8 @@ def highlight_sentence(text, delay):
         optional_period = ''
         if i != 0:
             optional_period = '.'
-
+        # Get character count for each sentance and divide it by 5. On average per word it should take 1 sec to read it
+        character_counter = len(''.join(split_text[i].split(" "))) / 5
         # highlighted_word = f"{optional_period}<span class='underline'>{split_text[i]}.</span>"
         highlighted_word = f"{optional_period}<span class='highlight red'>{split_text[i]}.</span>"
         updated_text = "<div>" + \
@@ -81,7 +82,7 @@ def highlight_sentence(text, delay):
             join_key.join(split_text[i+1:]) + "</div>"
 
         placeholder.markdown(updated_text, unsafe_allow_html=True)
-        time.sleep(delay)
+        time.sleep(character_counter/delay)
 
 
 def load_data():
@@ -252,7 +253,7 @@ def calibration_screen():
     # st.markdown(ct)
     # speed = st.slider('What is a comfortable speed?', 0.05, 1.0, 0.4)
     # highlight_word(ct, speed)
-    speed = st.slider('What is a comfortable speed?', 1.0, 6.0, 2.0)
+    speed = st.slider('What is a comfortable speed?', 1.0, 6.0, value=3.5, step=0.25)
     auto = st.checkbox('check box to start testing different speeds')
     st.button(
         'yes, this is a good speed', on_click=update_speed, args=(speed,))
