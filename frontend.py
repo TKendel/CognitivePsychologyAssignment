@@ -157,13 +157,15 @@ def intro_screen():
     st.button('I understand', on_click=update_state)
 
 
-def check_correct_response(response, correct_response):
+def check_correct_response(response, correct_response, start_time):
+    response_time = time.time() - start_time
     correct = False
     if response == correct_response:
         correct = True
 
     td = st.session_state['current_trial_data']
     td.set_correct_response(correct)
+    td.set_response_time(response_time)
     st.session_state['current_trial_data'] = td
 
     update_state()
@@ -175,8 +177,9 @@ def question_screen():
     possible_answers = current_par['possible_anwsers']
     correct_ans = current_par['answer']
     ans = st.radio(question, possible_answers)
+    start_time = time.time()
     st.button('submit', on_click=check_correct_response,
-              args=(ans, possible_answers[correct_ans]))
+              args=(ans, possible_answers[correct_ans], start_time))
 
 
 def highlight_screen():
@@ -197,12 +200,12 @@ def highlight_screen():
 
 def stop_timer(start_time):
     end_time = time.time()
-    elapsed_time = end_time - start_time
-    et_curr = st.session_state['elapsed_time']
-    et_curr.append(elapsed_time)
-    st.session_state['elapsed_time'] = et_curr
+    reading_time = end_time - start_time
+    et_curr = st.session_state['reading_time']
+    et_curr.append(reading_time)
+    st.session_state['reading_time'] = et_curr
     td = st.session_state['current_trial_data']
-    td.set_elapsed_time(elapsed_time)
+    td.set_reading_time(reading_time)
     st.session_state['current_trial_data'] = td
     update_state()
 
@@ -222,23 +225,26 @@ def plain_screen():
 
 def generate_table():
     arr_trial_num = []
-    arr_elapsed_time = []
+    arr_reading_time = []
     arr_correct_response = []
     arr_paragraph_type = []
+    arr_response_time = []
     for i in range(len(st.session_state.response_data)):
         tr = st.session_state['response_data'][i]
         arr_trial_num.append(tr.trial_num)
-        arr_elapsed_time.append(tr.elapsed_time)
+        arr_reading_time.append(tr.reading_time)
         arr_correct_response.append(tr.correct_response)
         arr_paragraph_type.append(tr.paragraph_type)
+        arr_response_time.append(tr.response_time)
         # st.write(
-        #     f'{tr.trial_num} - {tr.elapsed_time} - {tr.correct_response} - {tr.paragraph_type}')
+        #     f'{tr.trial_num} - {tr.reading_time} - {tr.correct_response} - {tr.paragraph_type}')
     return pd.DataFrame(
         {
             "trial": arr_trial_num,
-            "elapsed time": arr_elapsed_time,
+            "elapsed time": arr_reading_time,
             "correct response": arr_correct_response,
-            "paragraph type": arr_paragraph_type
+            "paragraph type": arr_paragraph_type,
+            "response time": arr_response_time
         }
     )
 
@@ -263,10 +269,10 @@ def save_data():
     tr = st.session_state['response_data'][0]
     data, _ = client.table('responses').insert(
         {"trial_num": tr.trial_num,
-            "reading_time": tr.elapsed_time,
+            "reading_time": tr.reading_time,
             "correct_response": tr.correct_response,
             "paragraph_type": tr.paragraph_type,
-            "response_time": 1.0
+            "response_time": tr.response_time
          }).execute()
     subject = data[1][0]['subject']
 
@@ -276,10 +282,10 @@ def save_data():
             {
                 "subject": subject,
                 "trial_num": tr.trial_num,
-                "reading_time": tr.elapsed_time,
+                "reading_time": tr.reading_time,
                 "correct_response": tr.correct_response,
                 "paragraph_type": tr.paragraph_type,
-                "response_time": 1.0
+                "response_time": tr.response_time
             }).execute()
 
 
@@ -307,19 +313,23 @@ class State(Enum):
 
 class TrialData():
     def __init__(self, trial_num):
-        self.elapsed_time = None
+        self.reading_time = None
         self.correct_response = None
         self.trial_num = trial_num
         self.paragraph_type = None
+        self.response_time = None
 
-    def set_elapsed_time(self, time):
-        self.elapsed_time = time
+    def set_reading_time(self, time):
+        self.reading_time = time
 
     def set_correct_response(self, response):
         self.correct_response = response
 
     def set_paragraph_type(self, par_type):
         self.paragraph_type = par_type
+
+    def set_response_time(self, time):
+        self.response_time = time
 
 
 if 'response_data' not in st.session_state:
@@ -328,8 +338,8 @@ if 'response_data' not in st.session_state:
 if 'current_par' not in st.session_state:
     st.session_state['current_par'] = {}
 
-if 'elapsed_time' not in st.session_state:
-    st.session_state['elapsed_time'] = []
+if 'reading_time' not in st.session_state:
+    st.session_state['reading_time'] = []
 
 if 'state' not in st.session_state:
     load_data()  # data now in st.session_state.data
@@ -364,14 +374,14 @@ if st.session_state['state'].value == 5:  # END
     st.balloons()
     st.text("That's the end folks! ;)")
 
-    df = generate_table()
-    st.dataframe(df, use_container_width=True)
+    # df = generate_table()
+    # st.dataframe(df, use_container_width=True)
 
-    csv = df.to_csv(index=False).encode('utf-8')
-    st.download_button(
-        "Press to Download",
-        csv,
-        "file.csv",
-        "text/csv",
-        key='download-csv'
-    )
+    # csv = df.to_csv(index=False).encode('utf-8')
+    # st.download_button(
+    #     "Press to Download",
+    #     csv,
+    #     "file.csv",
+    #     "text/csv",
+    #     key='download-csv'
+    # )
