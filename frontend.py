@@ -5,7 +5,7 @@ import time
 import random
 from enum import Enum
 
-NUM_OF_TRIALS = 3
+NUM_OF_TRIALS = 2
 
 hide_streamlit_style = """
     <style>
@@ -183,11 +183,12 @@ def highlight_screen():
     paragraph = current_par['text']
     placeholder = st.empty()
     start = placeholder.button('start', disabled=False, key='1')
+    speed = st.session_state['highlight_speed']
     if start == True:
         placeholder.button('start', disabled=True, key='2')
         start_time = time.time()
         # highlight_word(paragraph, 0.5)
-        highlight_sentence(paragraph, 5)
+        highlight_sentence(paragraph, speed)
         st.markdown('##')
         st.button('done', on_click=stop_timer,
                   args=(start_time, ))
@@ -241,6 +242,11 @@ def generate_table():
     )
 
 
+def update_speed(speed):
+    st.session_state['highlight_speed'] = speed
+    update_state()
+
+
 def calibration_screen():
     ct = st.session_state['calibration_text']
     # st.markdown(ct)
@@ -248,8 +254,8 @@ def calibration_screen():
     # highlight_word(ct, speed)
     speed = st.slider('What is a comfortable speed?', 1.0, 6.0, 2.0)
     auto = st.checkbox('check box to start testing different speeds')
-    is_good_speed = st.button(
-        'yes, this is a good speed', on_click=update_state)
+    st.button(
+        'yes, this is a good speed', on_click=update_speed, args=(speed,))
     if auto:
         highlight_sentence(ct, speed)
 
