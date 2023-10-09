@@ -54,6 +54,7 @@ def highlight_word(text, delay):
     split_text = text.split(' ')
     join_key = ' '
     for i in range(len(split_text)):
+        time_per_word = len(split_text[i])/5
         # highlighted_word = f"<span class='underline'> {split_text[i]} </span>"
         highlighted_word = f"<span class='highlight red'> {split_text[i]} </span>"
         updated_text = "<div>" + \
@@ -62,7 +63,7 @@ def highlight_word(text, delay):
 
         placeholder.markdown(
             updated_text, unsafe_allow_html=True)
-        time.sleep(delay)
+        time.sleep(time_per_word/delay)
 
 
 def highlight_sentence(text, delay):
@@ -124,7 +125,6 @@ def trial_type():
         st.session_state['current_trial_data'] = td
         return State.HIGHLIGHT_PARAGRAPH
 
-    st.session_state['trial_counter'] += 1
     td.set_paragraph_type('plain')
     st.session_state['current_trial_data'] = td
     return State.PLAIN_PARAGRAPH
@@ -307,9 +307,9 @@ def calibration_screen():
     # speed = st.slider('What is a comfortable speed?', 0.05, 1.0, 0.4)
     # highlight_word(ct, speed)
     speed = st.slider('What is a comfortable speed?', 1.0, 6.0, value=3.5, step=0.25)
-    auto = st.checkbox('check box to start testing different speeds')
+    auto = st.checkbox('Check box to start testing different speeds')
     st.button(
-        'yes, this is a good speed', on_click=update_speed, args=(speed,))
+        'Yes, this is a good speed', on_click=update_speed, args=(speed,))
     if auto:
         highlight_sentence(ct, speed)
 
