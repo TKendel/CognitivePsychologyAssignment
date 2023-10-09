@@ -143,8 +143,8 @@ def update_state():
             rd = st.session_state['response_data'].copy()
             rd.append(td)
             st.session_state['response_data'] = rd
-            st.session_state['state'] = State.END
-            st.session_state['state'] = State.END
+            # st.session_state['state'] = State.END
+            st.session_state['state'] = State.GET_PARTICIPANT_INFO
         else:
             td = st.session_state['current_trial_data']
             rd = st.session_state['response_data'].copy()
@@ -160,9 +160,8 @@ def update_state():
     elif st.session_state['state'].value == 6:  # CALIBRATION
         choose_paragraph()
         st.session_state['state'] = trial_type()
-    elif st.session_state['state'].value == 6:  # CALIBRATION
-        choose_paragraph()
-        st.session_state['state'] = trial_type()
+    elif st.session_state['state'].value == 7:  # GET_PARTICIPANT_INFO
+        st.session_state['state'] = State.END
 
 
 def intro_screen():
@@ -265,6 +264,14 @@ def generate_table():
     )
 
 
+def data_collection_screen():
+    st.text('Check the boxes if any are true')
+    is_dyslexic = st.checkbox('I have dyslexia')
+    is_eng_main_lang = st.checkbox('English is my main language')
+
+    st.button('next', on_click=update_state)
+
+
 def update_speed(speed):
     st.session_state['highlight_speed'] = speed
     update_state()
@@ -310,12 +317,12 @@ def calibration_screen():
     # st.markdown(ct)
     # speed = st.slider('What is a comfortable speed?', 0.05, 1.0, 0.4)
     # highlight_word(ct, speed)
-    speed = st.slider('What is a comfortable speed?',
-                      0.50, 5.0, value=2.0, step=0.25)
     auto = st.checkbox('check box to start testing different speeds')
-    st.button(
-        'Yes, this is a good speed', on_click=update_speed, args=(speed,))
     if auto:
+        speed = st.slider('What is a comfortable speed?',
+                          0.50, 5.0, value=2.0, step=0.25)
+        st.button(
+            'yes, this is a good speed', on_click=update_speed, args=(speed,))
         highlight_sentence(ct, speed)
 
 
@@ -388,16 +395,15 @@ if st.session_state['state'].value == 3:  # PLAIN_PARAGRAPH
 if st.session_state['state'].value == 4:  # QUESTION
     question_screen()
 
-if st.session_state['state'].value == 7:
-    st.text('data collection')
-    st.button('next')
-
 if st.session_state['state'].value == 5:  # END
     with st.spinner('saving...'):
         save_data()
 
     st.balloons()
     st.text("That's the end folks! ;)")
+
+if st.session_state['state'].value == 7:
+    data_collection_screen()
 
     # df = generate_table()
     # st.dataframe(df, use_container_width=True)
