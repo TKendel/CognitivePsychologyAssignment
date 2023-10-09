@@ -302,7 +302,8 @@ def calibration_screen():
     # st.markdown(ct)
     # speed = st.slider('What is a comfortable speed?', 0.05, 1.0, 0.4)
     # highlight_word(ct, speed)
-    speed = st.slider('What is a comfortable speed?', 1.0, 6.0, value=3.5, step=0.25)
+    speed = st.slider('What is a comfortable speed?',
+                      1.0, 6.0, value=3.5, step=0.25)
     auto = st.checkbox('check box to start testing different speeds')
     st.button(
         'yes, this is a good speed', on_click=update_speed, args=(speed,))
@@ -361,6 +362,9 @@ if st.session_state['state'].value == 6:  # CALIBRATION
     calibration_screen()
 
 if 'num_of_trials' not in st.session_state:
+    if 'NUM_OF_TRIALS' in st.secrets:
+        NUM_OF_TRIALS = st.secrets['NUM_OF_TRIALS']
+
     st.session_state['num_of_trials'] = NUM_OF_TRIALS
     st.session_state['current_trial'] = 1
     td = TrialData(1)
