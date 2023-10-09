@@ -6,7 +6,7 @@ import random
 from enum import Enum
 from supabase import create_client, Client
 
-NUM_OF_TRIALS = 2
+NUM_OF_TRIALS = 5
 
 hide_streamlit_style = """
     <style>
@@ -54,6 +54,7 @@ def highlight_word(text, delay):
     split_text = text.split(' ')
     join_key = ' '
     for i in range(len(split_text)):
+        time_per_word = len(split_text[i])/5
         # highlighted_word = f"<span class='underline'> {split_text[i]} </span>"
         highlighted_word = f"<span class='highlight red'> {split_text[i]} </span>"
         updated_text = "<div>" + \
@@ -62,7 +63,7 @@ def highlight_word(text, delay):
 
         placeholder.markdown(
             updated_text, unsafe_allow_html=True)
-        time.sleep(delay)
+        time.sleep(time_per_word/delay)
 
 
 def highlight_sentence(text, delay):
@@ -93,7 +94,6 @@ def load_data():
         st.session_state['data'] = data["updated_paragraphs"]
         st.session_state['instructions'] = data["instructions"]
         st.session_state['calibration_text'] = data["calibration_text"]
-        st.session_state['trial_counter'] = 0
     f.close()
 
 
@@ -109,18 +109,22 @@ def trial_type():
     random_number = random.randint(1, 10)
     td = st.session_state['current_trial_data']
 
-    # Make sure that if the highlighter has not been randomly picked by the end of the run to run it at least once
-    if st.session_state['trial_counter'] == NUM_OF_TRIALS-1:
+    # Make sure that if plain/ highlighting runs 2 times in a row, run a different one
+    list_of_trials = ['']
+    for i in range(len(st.session_state.response_data)):
+        tr = st.session_state['response_data'][i]
+        list_of_trials.append(tr.trial_num)
+    if list_of_trials[:-2] == [3, 3]:
         random_number = 10
-    elif st.session_state['trial_counter'] == NUM_OF_TRIALS-NUM_OF_TRIALS:
+    elif list_of_trials[:-2] == [2, 2]:
         random_number = 1
 
+    # Pick between plain or highlighted
     if random_number > 5:
         td.set_paragraph_type('highlighted')
         st.session_state['current_trial_data'] = td
         return State.HIGHLIGHT_PARAGRAPH
 
-    st.session_state['trial_counter'] += 1
     td.set_paragraph_type('plain')
     st.session_state['current_trial_data'] = td
     return State.PLAIN_PARAGRAPH
@@ -302,11 +306,10 @@ def calibration_screen():
     # st.markdown(ct)
     # speed = st.slider('What is a comfortable speed?', 0.05, 1.0, 0.4)
     # highlight_word(ct, speed)
-    speed = st.slider('What is a comfortable speed?',
-                      1.0, 6.0, value=3.5, step=0.25)
-    auto = st.checkbox('check box to start testing different speeds')
+    speed = st.slider('What is a comfortable speed?', 1.0, 6.0, value=3.5, step=0.25)
+    auto = st.checkbox('Check box to start testing different speeds')
     st.button(
-        'yes, this is a good speed', on_click=update_speed, args=(speed,))
+        'Yes, this is a good speed', on_click=update_speed, args=(speed,))
     if auto:
         highlight_sentence(ct, speed)
 
