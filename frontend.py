@@ -323,7 +323,7 @@ def calibration_screen():
     auto = st.checkbox('check box to start testing different speeds')
     if auto:
         speed = st.slider('What is a comfortable speed?',
-                          0.50, 5.0, value=2.0, step=0.25)
+                          0.50, 10.0, value=2.0, step=0.25)
         st.button(
             'Yes, this is a good speed', on_click=update_speed, args=(speed,))
         highlight_sentence(ct, speed)
