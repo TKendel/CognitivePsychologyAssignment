@@ -6,7 +6,7 @@ import random
 from enum import Enum
 from supabase import create_client, Client
 
-NUM_OF_TRIALS = 2
+NUM_OF_TRIALS = 5
 
 hide_streamlit_style = """
     <style>
@@ -93,7 +93,6 @@ def load_data():
         st.session_state['data'] = data["updated_paragraphs"]
         st.session_state['instructions'] = data["instructions"]
         st.session_state['calibration_text'] = data["calibration_text"]
-        st.session_state['trial_counter'] = 0
     f.close()
 
 
@@ -109,12 +108,17 @@ def trial_type():
     random_number = random.randint(1, 10)
     td = st.session_state['current_trial_data']
 
-    # Make sure that if the highlighter has not been randomly picked by the end of the run to run it at least once
-    if st.session_state['trial_counter'] == NUM_OF_TRIALS-1:
+    # Make sure that if plain/ highlighting runs 2 times in a row, run a different one
+    list_of_trials = ['']
+    for i in range(len(st.session_state.response_data)):
+        tr = st.session_state['response_data'][i]
+        list_of_trials.append(tr.trial_num)
+    if list_of_trials[:-2] == [3, 3]:
         random_number = 10
-    elif st.session_state['trial_counter'] == 0:
+    elif list_of_trials[:-2] == [2, 2]:
         random_number = 1
 
+    # Pick between plain or highlighted
     if random_number > 5:
         td.set_paragraph_type('highlighted')
         st.session_state['current_trial_data'] = td
