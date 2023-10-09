@@ -78,10 +78,10 @@ def highlight_sentence(text, delay):
         # Get character count for each sentance and divide it by 5. On average per word it should take 1 sec to read it
         character_counter = len(''.join(split_text[i].split(" "))) / 5
         # highlighted_word = f"{optional_period}<span class='underline'>{split_text[i]}.</span>"
-        highlighted_word = f"{optional_period}<span class='highlight red'>{split_text[i]}.</span>"
-        updated_text = "<div>" + \
+        highlighted_word = f"{optional_period}<span class='highlight blue'>{split_text[i]}.</span>"
+        updated_text = "<p style='font-size:1.5em'>" + \
             join_key.join(split_text[:i]) + highlighted_word + \
-            join_key.join(split_text[i+1:]) + "</div>"
+            join_key.join(split_text[i+1:]) + "</p>"
 
         placeholder.markdown(updated_text, unsafe_allow_html=True)
         time.sleep(character_counter/delay)
@@ -143,7 +143,7 @@ def update_state():
             rd = st.session_state['response_data'].copy()
             rd.append(td)
             st.session_state['response_data'] = rd
-            st.session_state['state'] = State.END
+            st.session_state['state'] = State.GET_PARTICIPANT_INFO
         else:
             td = st.session_state['current_trial_data']
             rd = st.session_state['response_data'].copy()
@@ -159,6 +159,8 @@ def update_state():
     elif st.session_state['state'].value == 6:  # CALIBRATION
         choose_paragraph()
         st.session_state['state'] = trial_type()
+    elif st.session_state['state'].value == 7:  # GET_PARTICIPANT_INFO
+        st.session_state['state'] = State.END
 
 
 def intro_screen():
@@ -230,7 +232,8 @@ def plain_screen():
     if start == True:
         placeholder.button('start', disabled=True, key='2')
         start_time = time.time()
-        st.markdown(paragraph)
+        updated_text = "<p style='font-size:1.5em'>" + paragraph + "</p>"
+        st.markdown(updated_text, unsafe_allow_html=True)
         st.button('done', on_click=stop_timer,
                   args=(start_time, ))
 
@@ -279,12 +282,20 @@ def save_data():
 
     # insert first, which generate the subject id. use this subject id for the rest of the trial records
     tr = st.session_state['response_data'][0]
+
+    is_dyslexic = st.session_state['is_dyslexic']
+    is_eng_main_lang = st.session_state['is_eng_main_lang']
+    highlight_speed = st.session_state['highlight_speed']
+
     data, _ = client.table('responses').insert(
         {"trial_num": tr.trial_num,
             "reading_time": tr.reading_time,
             "correct_response": tr.correct_response,
             "paragraph_type": tr.paragraph_type,
-            "response_time": tr.response_time
+            "response_time": tr.response_time,
+            "is_dyslexic": is_dyslexic,
+            "is_eng_main": is_eng_main_lang,
+            "highlight_speed": highlight_speed
          }).execute()
     subject = data[1][0]['subject']
 
@@ -297,7 +308,10 @@ def save_data():
                 "reading_time": tr.reading_time,
                 "correct_response": tr.correct_response,
                 "paragraph_type": tr.paragraph_type,
-                "response_time": tr.response_time
+                "response_time": tr.response_time,
+                "is_dyslexic": is_dyslexic,
+                "is_eng_main": is_eng_main_lang,
+                "highlight_speed": highlight_speed
             }).execute()
 
 
@@ -306,12 +320,23 @@ def calibration_screen():
     # st.markdown(ct)
     # speed = st.slider('What is a comfortable speed?', 0.05, 1.0, 0.4)
     # highlight_word(ct, speed)
-    speed = st.slider('What is a comfortable speed?', 1.0, 6.0, value=3.5, step=0.25)
-    auto = st.checkbox('Check box to start testing different speeds')
-    st.button(
-        'Yes, this is a good speed', on_click=update_speed, args=(speed,))
+    auto = st.checkbox('check box to start testing different speeds')
     if auto:
+        speed = st.slider('What is a comfortable speed?',
+                          0.50, 5.0, value=2.0, step=0.25)
+        st.button(
+            'Yes, this is a good speed', on_click=update_speed, args=(speed,))
         highlight_sentence(ct, speed)
+
+
+def data_collection_screen():
+    st.text('Check the boxes if any are true')
+    is_dyslexic = st.checkbox('I have dyslexia')
+    is_eng_main_lang = st.checkbox('English is my main language')
+    st.session_state['is_dyslexic'] = is_dyslexic
+    st.session_state['is_eng_main_lang'] = is_eng_main_lang
+
+    st.button('next', on_click=update_state)
 
 
 class State(Enum):
@@ -321,6 +346,7 @@ class State(Enum):
     QUESTION = 4
     END = 5
     CALIBRATION = 6
+    GET_PARTICIPANT_INFO = 7
 
 
 class TrialData():
@@ -381,6 +407,9 @@ if st.session_state['state'].value == 3:  # PLAIN_PARAGRAPH
 
 if st.session_state['state'].value == 4:  # QUESTION
     question_screen()
+
+if st.session_state['state'].value == 7:
+    data_collection_screen()
 
 if st.session_state['state'].value == 5:  # END
     with st.spinner('saving...'):
