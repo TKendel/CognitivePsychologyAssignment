@@ -365,6 +365,9 @@ if st.session_state['state'].value == 6:  # CALIBRATION
     calibration_screen()
 
 if 'num_of_trials' not in st.session_state:
+    if 'NUM_OF_TRIALS' in st.secrets:
+        NUM_OF_TRIALS = st.secrets['NUM_OF_TRIALS']
+
     st.session_state['num_of_trials'] = NUM_OF_TRIALS
     st.session_state['current_trial'] = 1
     td = TrialData(1)
