@@ -7,7 +7,7 @@ from enum import Enum
 from supabase import create_client, Client
 
 NUM_OF_TRIALS = 5
-
+st.set_page_config(page_title="Cognitive Psyc")
 hide_streamlit_style = """
     <style>
     div[data-testid="stToolbar"] {
@@ -188,7 +188,7 @@ def check_correct_response(response, correct_response, start_time):
 def question_screen():
     current_par = st.session_state['current_par']
     question = current_par['question']
-    possible_answers = current_par['possible_anwsers']
+    possible_answers = current_par['possible_answers']
     correct_ans = current_par['answer']
     ans = st.radio(question, possible_answers)
     start_time = time.time()
@@ -326,7 +326,7 @@ def calibration_screen():
     auto = st.checkbox('check box to start testing different speeds')
     if auto:
         speed = st.slider('What is a comfortable speed?',
-                          0.50, 10.0, value=2.0, step=0.25)
+                          0.50, 7.0, value=2.0, step=0.25)
         st.button(
             'Yes, this is a good speed', on_click=update_speed, args=(speed,))
         highlight_sentence(ct, speed)
