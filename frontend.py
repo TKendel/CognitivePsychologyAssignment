@@ -79,7 +79,7 @@ def highlight_sentence(text, delay):
         character_counter = len(''.join(split_text[i].split(" "))) / 5
         # highlighted_word = f"{optional_period}<span class='underline'>{split_text[i]}.</span>"
         highlighted_word = f"{optional_period}<span class='highlight blue'>{split_text[i]}.</span>"
-        updated_text = "<p style='font-size:2em'>" + \
+        updated_text = "<p style='font-size:1.5em'>" + \
             join_key.join(split_text[:i]) + highlighted_word + \
             join_key.join(split_text[i+1:]) + "</p>"
 
@@ -232,7 +232,7 @@ def plain_screen():
     if start == True:
         placeholder.button('start', disabled=True, key='2')
         start_time = time.time()
-        updated_text = "<p style='font-size:2em'>" + paragraph + "</p>"
+        updated_text = "<p style='font-size:1.5em'>" + paragraph + "</p>"
         st.markdown(updated_text, unsafe_allow_html=True)
         st.button('done', on_click=stop_timer,
                   args=(start_time, ))
