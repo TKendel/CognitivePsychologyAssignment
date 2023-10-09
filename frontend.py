@@ -110,13 +110,13 @@ def trial_type():
     td = st.session_state['current_trial_data']
 
     # Make sure that if plain/ highlighting runs 2 times in a row, run a different one
-    list_of_trials = ['']
+    list_of_trials = []
     for i in range(len(st.session_state.response_data)):
         tr = st.session_state['response_data'][i]
-        list_of_trials.append(tr.trial_num)
-    if list_of_trials[:-2] == [3, 3]:
+        list_of_trials.append(tr.paragraph_type)
+    if list_of_trials[:-2] == ['plain', 'plain']:
         random_number = 10
-    elif list_of_trials[:-2] == [2, 2]:
+    elif list_of_trials[:-2] == ['highlighted', 'highlighted']:
         random_number = 1
 
     # Pick between plain or highlighted
