@@ -286,6 +286,7 @@ def save_data():
     is_dyslexic = st.session_state['is_dyslexic']
     is_eng_main_lang = st.session_state['is_eng_main_lang']
     highlight_speed = st.session_state['highlight_speed']
+    is_from_phone = st.session_state['is_from_phone']
 
     data, _ = client.table('responses').insert(
         {"trial_num": tr.trial_num,
@@ -295,7 +296,8 @@ def save_data():
             "response_time": tr.response_time,
             "is_dyslexic": is_dyslexic,
             "is_eng_main": is_eng_main_lang,
-            "highlight_speed": highlight_speed
+            "highlight_speed": highlight_speed,
+            "is_from_phone": is_from_phone
          }).execute()
     subject = data[1][0]['subject']
 
@@ -311,7 +313,8 @@ def save_data():
                 "response_time": tr.response_time,
                 "is_dyslexic": is_dyslexic,
                 "is_eng_main": is_eng_main_lang,
-                "highlight_speed": highlight_speed
+                "highlight_speed": highlight_speed,
+                "is_from_phone": is_from_phone
             }).execute()
 
 
@@ -331,9 +334,13 @@ def calibration_screen():
 
 def data_collection_screen():
     st.text('Check the boxes if any are true')
+
     is_dyslexic = st.checkbox('I have dyslexia')
+    is_from_phone = st.checkbox('I completed this on my phone')
     is_eng_main_lang = st.checkbox('English is my main language')
+
     st.session_state['is_dyslexic'] = is_dyslexic
+    st.session_state['is_from_phone'] = is_from_phone
     st.session_state['is_eng_main_lang'] = is_eng_main_lang
 
     st.button('next', on_click=update_state)
