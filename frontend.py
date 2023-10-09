@@ -114,9 +114,9 @@ def trial_type():
     for i in range(len(st.session_state.response_data)):
         tr = st.session_state['response_data'][i]
         list_of_trials.append(tr.paragraph_type)
-    if list_of_trials[:-2] == ['plain', 'plain']:
+    if list_of_trials[-2:] == ['plain', 'plain']:
         random_number = 10
-    elif list_of_trials[:-2] == ['highlighted', 'highlighted']:
+    elif list_of_trials[-2:] == ['highlighted', 'highlighted']:
         random_number = 1
 
     # Pick between plain or highlighted
