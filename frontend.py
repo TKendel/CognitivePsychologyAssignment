@@ -144,6 +144,7 @@ def update_state():
             rd.append(td)
             st.session_state['response_data'] = rd
             st.session_state['state'] = State.END
+            st.session_state['state'] = State.END
         else:
             td = st.session_state['current_trial_data']
             rd = st.session_state['response_data'].copy()
@@ -156,6 +157,9 @@ def update_state():
             st.session_state['state'] = trial_type()
     elif st.session_state['state'].value == 5:  # END
         st.session_state['state'] = State.INTRO
+    elif st.session_state['state'].value == 6:  # CALIBRATION
+        choose_paragraph()
+        st.session_state['state'] = trial_type()
     elif st.session_state['state'].value == 6:  # CALIBRATION
         choose_paragraph()
         st.session_state['state'] = trial_type()
@@ -306,8 +310,9 @@ def calibration_screen():
     # st.markdown(ct)
     # speed = st.slider('What is a comfortable speed?', 0.05, 1.0, 0.4)
     # highlight_word(ct, speed)
-    speed = st.slider('What is a comfortable speed?', 1.0, 6.0, value=3.5, step=0.25)
-    auto = st.checkbox('Check box to start testing different speeds')
+    speed = st.slider('What is a comfortable speed?',
+                      0.50, 5.0, value=2.0, step=0.25)
+    auto = st.checkbox('check box to start testing different speeds')
     st.button(
         'Yes, this is a good speed', on_click=update_speed, args=(speed,))
     if auto:
@@ -321,6 +326,7 @@ class State(Enum):
     QUESTION = 4
     END = 5
     CALIBRATION = 6
+    GET_PARTICIPANT_INFO = 7
 
 
 class TrialData():
@@ -381,6 +387,10 @@ if st.session_state['state'].value == 3:  # PLAIN_PARAGRAPH
 
 if st.session_state['state'].value == 4:  # QUESTION
     question_screen()
+
+if st.session_state['state'].value == 7:
+    st.text('data collection')
+    st.button('next')
 
 if st.session_state['state'].value == 5:  # END
     with st.spinner('saving...'):
