@@ -45,163 +45,163 @@
         "Put a bird on it authentic shoreditch man braid everyday carry. Literally chicharrones microdosing health goth humblebrag lyft, cardigan tousled photo booth pickled distillery artisan locavore. Neutra glossier tbh, adaptogen green juice flexitarian cloud bread grailed affogato PBR&B 8-bit locavore unicorn palo santo master cleanse. Hell of craft beer selvage godard mukbang grailed snackwave swag echo park shaman hammock venmo. Tilde pug neutra 3 wolf moon bushwick vibecession whatever, you probably haven't heard of them mixtape. Cray ethical kale chips, polaroid kinfolk narwhal DIY JOMO snackwave scenester blue bottle helvetica normcore."
     ],
     "instructions": [
-        "Hi 👋 thanks for participating in our experiment.",
+        "Hi, thanks for participating in our experiment.",
         "This experiment you will be presented with paragraphs to read one at a time. After each paragraph there will be a question to test your understanding.",
         "There will be 2 types of paragraphs that will be presented randomly. One will be a standard paragraph to read the other will be one where each sentence is highlighted at a constant pace.",
         "This experiement will consist of 12 paragraphs. After each question feel free to take a quick break 15-30s."
     ],
     "updated_paragraphs": [
         {
-            "text": "The Earth's atmosphere is composed of several gases, with nitrogen and oxygen being the two most abundant. Nitrogen makes up about 78% of the atmosphere, while oxygen accounts for roughly 21%. These gases are essential for supporting life on Earth, as oxygen is crucial for respiration in most organisms, and nitrogen plays a vital role in the nitrogen cycle, which is essential for plant growth. Additionally, trace gases such as carbon dioxide and water vapor are present in much smaller quantities but have significant impacts on the planet's climate.",
-            "question": "What are the two most abundant gases in Earth's atmosphere?",
-            "possible_anwsers": [
-                "Carbon dioxide and water vapor",
-                "Nitrogen and oxygen",
-                "Oxygen and carbon dioxide",
-                "Methane and nitrogen"
-            ],
-            "answer": 1
-        },
-        {
-            "text": "Photosynthesis is a fundamental process in the plant kingdom, where plants convert sunlight, carbon dioxide, and water into glucose and oxygen. Chlorophyll, the green pigment in plant cells, plays a crucial role in capturing sunlight energy. This energy is used to split water molecules, releasing oxygen as a byproduct. The glucose produced during photosynthesis serves as the primary energy source for the plant and is essential for its growth and maintenance. Without photosynthesis, life as we know it would not be sustainable on Earth.",
-            "question": "What is the primary purpose of photosynthesis in plants?",
-            "possible_anwsers": [
-                "To produce oxygen for animals to breathe",
-                "To convert glucose into sunlight energy",
-                "To break down water molecules into carbon dioxide and oxygen",
-                "To convert sunlight, carbon dioxide, and water into glucose and oxygen"
+            "text": "Once upon a time in a quiet village nestled among rolling hills, there lived a young girl named Lily. She possessed a magical book that could bring her wildest dreams to life. One day, she decided to use the book to create a breathtaking garden filled with enchanted flowers that glowed in the moonlight. As the garden blossomed, it attracted visitors from far and wide, spreading happiness and wonder throughout the land.",
+            "question": "What did Lily create with her magical book?",
+            "possible_answers": [
+                "A quiet village",
+                "Rolling hills",
+                "A magical book",
+                "Enchanted flowers"
             ],
             "answer": 3
         },
         {
-            "text": "The Industrial Revolution, which began in the late 18th century, had a profound impact on society. It marked a shift from agrarian economies to industrial and manufacturing-based economies. One of the most significant inventions of this period was the steam engine, which powered factories and locomotives, revolutionizing transportation and production. Additionally, the growth of urban centers, the development of new technologies, and changes in labor practices all contributed to the transformative nature of the Industrial Revolution.",
-            "question": "Which invention played a crucial role in powering factories and locomotives during the Industrial Revolution?",
-            "possible_anwsers": [
-                "Cotton gin",
-                "Steam engine",
-                "Printing press",
-                "Telegraph"
+            "text": "In a bustling city, there was a street musician named Alex who played the violin with unmatched passion and skill. Every evening, he filled the streets with the hauntingly beautiful melodies of his music, bringing solace to the weary souls passing by. One night, a mysterious stranger approached him, offering a golden violin that could play music capable of healing hearts and mending broken spirits.",
+            "question": "What did the mysterious stranger offer to Alex?",
+            "possible_answers": [
+                "A golden violin",
+                "A beautiful melody",
+                "A bustling city",
+                "A healing potion"
             ],
-            "answer": 1
+            "answer": 0
         },
         {
-            "text": "Plate tectonics is a fundamental geological theory that explains the movement of the Earth's lithosphere. The Earth's outer layer is divided into several large and small tectonic plates that float on the semi-fluid asthenosphere beneath them. These plates are in constant motion, driven by processes like mantle convection. When tectonic plates interact, they can create various geological features, such as mountains, earthquakes, and ocean trenches. The theory of plate tectonics has greatly advanced our understanding of Earth's geology and the processes that shape its surface.",
-            "question": "What is the driving force behind the movement of tectonic plates?",
-            "possible_anwsers": [
-                "Wind erosion",
-                "Mantle convection",
-                "Solar radiation",
-                "Gravitational pull"
-            ],
-            "answer": 1
-        },
-        {
-            "text": "The concept of supply and demand is a fundamental principle in economics. It describes the relationship between the availability of a product or service (supply) and the desire for that product or service (demand) within a market. When the demand for a particular item is high but its supply is limited, its price tends to rise. Conversely, when supply exceeds demand, prices tend to fall. This interplay between supply and demand influences pricing, production, and resource allocation in various industries and is a key factor in understanding economic systems.",
-            "question": "What happens to the price of a product when its supply is limited and the demand is high?",
-            "possible_anwsers": [
-                "The price tends to fall",
-                "The price remains constant",
-                "The price tends to rise",
-                "The price becomes unpredictable"
-            ],
-            "answer": 2
-        },
-        {
-            "text": "The water cycle, also known as the hydrological cycle, is the continuous movement of water on, above, and below the Earth's surface. It involves processes such as evaporation, condensation, precipitation, and runoff. Water evaporates from bodies of water and the Earth's surface, forms clouds through condensation, and falls back to the Earth as precipitation, which can take the form of rain, snow, sleet, or hail. This cycle plays a crucial role in distributing freshwater across the planet and sustaining all forms of life.",
-            "question": "Which process in the water cycle involves water vapor turning into liquid water droplets to form clouds?",
-            "possible_anwsers": [
-                "Evaporation",
-                "Condensation",
-                "Precipitation",
-                "Runoff"
-            ],
-            "answer": 1
-        },
-        {
-            "text": "The concept of natural selection is a fundamental principle in the theory of evolution proposed by Charles Darwin. It states that in a population, individuals with traits that are better suited to their environment are more likely to survive and reproduce, passing those advantageous traits to their offspring. Over time, this leads to the gradual change and adaptation of species to their specific environments. Natural selection is a key mechanism driving the diversity of life on Earth and helps explain how species have evolved over millions of years.",
-            "question": "What is the primary mechanism behind the diversity of life on Earth, as explained by Charles Darwin's theory of evolution?",
-            "possible_anwsers": [
-                "Genetic mutations",
-                "Natural selection",
-                "Artificial selection",
-                "Genetic drift"
-            ],
-            "answer": 1
-        },
-        {
-            "text": "The concept of 'checks and balances' is a fundamental principle in the United States government's system of separation of powers. It involves the distribution of governmental authority among three branches: the executive, legislative, and judicial branches. Each branch has distinct powers and responsibilities, and they are designed to limit the influence and prevent abuses of power by any one branch. For example, the legislative branch (Congress) can pass laws, but the executive branch (the President) can veto them, and the judicial branch (the courts) can declare laws unconstitutional. This system of checks and balances helps ensure a balance of power and protects citizens' rights.",
-            "question": "What is the primary purpose of the concept of 'checks and balances' in the US government?",
-            "possible_anwsers": [
-                "To limit the influence and prevent abuses of power by any one branch",
-                "To establish a monarchy",
-                "To eliminate the need for a judicial branch",
-                "To concentrate power in one branch of government"
+            "text": "In a vibrant city, there was a talented street artist named Maya. She painted colorful murals that adorned the walls of the bustling streets, brightening the lives of passersby. One day, a renowned art gallery owner discovered her work and offered her a chance to showcase her art in a prestigious exhibition, propelling Maya's career to new heights.",
+            "question": "What opportunity did Maya receive that elevated her career as an artist?",
+            "possible_answers": [
+                "A chance to perform on a street corner",
+                "A free supply of art materials",
+                "An invitation to a local art club",
+                "An opportunity to showcase her art in a prestigious exhibition"
             ],
             "answer": 3
         },
         {
-            "text": "The American Civil Rights Movement of the 1950s and 1960s was a pivotal period in US history. It was marked by a series of protests, demonstrations, and legal actions aimed at ending racial segregation and discrimination against African Americans. Prominent leaders like Martin Luther King Jr advocated for nonviolent civil disobedience as a means to achieve equal rights. The movement eventually led to the passage of significant civil rights legislation, including the Civil Rights Act of 1964, which outlawed discrimination based on race, color, religion, sex, or national origin.",
-            "question": "Which leader is known for advocating nonviolent civil disobedience during the American Civil Rights Movement?",
-            "possible_anwsers": [
-                "Malcolm X",
-                "Rosa Parks",
-                "Harriet Tubman",
-                "Martin Luther King Jr."
+            "text": "Sarah stumbled upon a dusty old book in her attic, its pages filled with mysterious symbols. As she began to decipher the writing, she realized it contained a spell for time travel. With a mix of excitement and trepidation, she decided to try it, and in an instant, she found herself in the bustling streets of ancient Rome.",
+            "question": "What did Sarah discover in her attic?",
+            "possible_answers": [
+                "A dusty old book",
+                "A hidden treasure chest",
+                "A collection of antique furniture",
+                "A stack of old newspapers"
             ],
-            "answer": 2
+            "answer": 0
         },
         {
-            "text": "The scientific method is a systematic approach used by scientists to investigate natural phenomena and answer questions about the world. It typically involves a series of steps, starting with making observations and asking questions, followed by forming hypotheses, conducting experiments, collecting data, and analyzing results. Through this rigorous process, scientists aim to test their hypotheses and draw conclusions based on empirical evidence. The scientific method is a powerful tool for advancing knowledge and understanding in various fields of science.",
-            "question": "What is the primary goal of the scientific method?",
-            "possible_anwsers": [
-                "To prove hypotheses true",
-                "To collect as much data as possible",
-                "To test hypotheses and draw conclusions based on empirical evidence",
-                "To create complex experiments"
-            ],
-            "answer": 2
-        },
-        {
-            "text": "The Great Wall of China is one of the most iconic architectural marvels in the world. It stretches over 13,000 miles and was built over centuries to protect China from invasions by nomadic tribes. Contrary to popular belief, it is not a single continuous wall but a series of walls and fortifications with varying construction materials and techniques. The Great Wall remains a symbol of China's rich history and determination to defend its borders.",
-            "question": "What was the primary purpose of the Great Wall of China?",
-            "possible_anwsers": [
-                "To serve as a trade route connecting China with neighboring countries",
-                "To provide shelter for travelers along the Silk Road",
-                "To protect China from invasions by nomadic tribes",
-                "To mark the boundary between different Chinese dynasties"
-            ],
-            "answer": 2
-        },
-        {
-            "text": "In recent years, the popularity of electric vehicles (EVs) has surged. Many consumers are attracted to EVs because they are environmentally friendly and offer lower operating costs compared to traditional gasoline-powered cars. Additionally, governments in various countries have introduced incentives and subsidies to encourage the adoption of EVs, further driving their growth in the market. As technology continues to advance, the range and charging infrastructure for EVs are also improving, making them a viable choice for an increasing number of people.",
-            "question": "What are some reasons for the growing popularity of electric vehicles (EVs)?",
-            "possible_anwsers": [
-                "They have a longer range than gasoline-powered cars",
-                "They are cheaper to operate than traditional cars",
-                "They emit fewer greenhouse gases and are more environmentally friendly",
-                "They require less maintenance compared to gasoline-powered cars"
-            ],
-            "answer": 2
-        },
-        {
-            "text": "The human brain is a complex and remarkable organ. It weighs approximately 3 pounds and is composed of billions of neurons that transmit electrical signals. One of the brain's most important functions is to control and regulate the body's activities, including movement, sensory perception, and cognitive processes such as thinking, memory, and emotions. Despite its relatively small size compared to the rest of the body, the brain consumes a significant amount of energy, making it one of the most energy-intensive organs in the human body.",
-            "question": "What is one of the key functions of the human brain mentioned in the paragraph?",
-            "possible_anwsers": [
-                "Digesting food and absorbing nutrients",
-                "Controlling and regulating the body's activities",
-                "Filtering toxins from the bloodstream",
-                "Producing hormones for growth and development"
+            "text": "Alex, a young scientist, embarked on an expedition to a remote jungle in search of a legendary, undiscovered species of butterfly. After weeks of searching, he finally spotted it, a magnificent butterfly with iridescent wings. Just as he was about to capture it for further study, he noticed a tribe of indigenous people watching him closely.",
+            "question": "What did Alex discover in the remote jungle?",
+            "possible_answers": [
+                "A hidden treasure",
+                "An undiscovered species of butterfly",
+                "A lost civilization",
+                "A rare orchid"
             ],
             "answer": 1
         },
         {
-            "text": "Climate change is a pressing global issue that has far-reaching consequences. The increase in greenhouse gas emissions, primarily from human activities such as burning fossil fuels and deforestation, is causing the Earth's temperature to rise. This warming leads to various adverse effects, including more frequent and severe weather events, rising sea levels, and disruptions to ecosystems. Addressing climate change requires international cooperation, policy changes, and the adoption of sustainable practices to reduce emissions and mitigate its impact on the planet.",
-            "question": "What is the primary cause of climate change mentioned in the paragraph?",
-            "possible_anwsers": [
-                "Natural volcanic eruptions",
-                "Solar activity fluctuations",
-                "Changes in ocean currents",
-                "Greenhouse gas emissions from human activities"
+            "text": "Emily had always been fascinated by the night sky, and one clear evening, she decided to set up her telescope in the backyard. As she gazed at the stars, she noticed a bright, moving object streaking across the sky. It was a meteor, and it left a brilliant trail of light before disappearing. Emily made a wish upon the shooting star.",
+            "question": "What did Emily see in the night sky?",
+            "possible_answers": [
+                "A comet",
+                "A satellite",
+                "A UFO",
+                "A shooting star"
+            ],
+            "answer": 3
+        },
+        {
+            "text": "Jake, an avid gardener, had been nurturing a mysterious plant for years. It grew in an old, ornate pot and was rumored to bloom once a decade. One day, as he watered it, the plant suddenly sprouted vibrant, otherworldly flowers that emitted a mesmerizing fragrance. Jake was astounded by this unexpected development.",
+            "question": "What surprised Jake about the mysterious plant?",
+            "possible_answers": [
+                "It withered and died",
+                "It grew tall and green leaves",
+                "It sprouted vibrant, otherworldly flowers",
+                "It produced a pungent odor"
+            ],
+            "answer": 2
+        },
+        {
+            "text": "On a foggy morning, Lisa decided to explore the abandoned mansion at the edge of town. Inside, she discovered a dusty old mirror that, when she touched it, transported her to a magical realm filled with talking animals and enchanted forests. Lisa was in awe of the new world she had entered.",
+            "question": "What did Lisa find inside the abandoned mansion?",
+            "possible_answers": [
+                "A treasure chest",
+                "A dusty old book",
+                "A magical mirror",
+                "A time machine"
+            ],
+            "answer": 2
+        },
+        {
+            "text": "As Emily was walking through the forest, she stumbled upon a hidden waterfall. The water cascaded down from a rocky cliff into a crystal-clear pool. It was a serene and enchanting spot, one that Emily had never seen before in all her forest adventures.",
+            "question": "What did Emily discover in the forest?",
+            "possible_answers": [
+                "A hidden cave",
+                "A hidden waterfall",
+                "A buried treasure",
+                "A field of wildflowers"
+            ],
+            "answer": 1
+        },
+        {
+            "text": "Max and Mia decided to explore an old, abandoned amusement park rumored to be haunted. As they walked through the rusted gates, eerie laughter echoed in the distance. Suddenly, a ghostly figure appeared before them, causing Max and Mia to gasp in surprise.",
+            "question": "What did Max and Mia encounter in the abandoned amusement park?",
+            "possible_answers": [
+                "A group of friendly children",
+                "A spooky haunted house",
+                "A ghostly figure",
+                "A group of clowns"
+            ],
+            "answer": 2
+        },
+        {
+            "text": "Samantha was exploring an ancient forest when she stumbled upon a glowing, magical stone. When she touched it, she felt a surge of energy and found herself able to communicate with the animals of the forest. Samantha was overjoyed with her newfound ability and spent hours talking to her newfound friends.",
+            "question": "What did Samantha discover in the ancient forest?",
+            "possible_answers": [
+                "A hidden cave",
+                "A talking tree",
+                "A hidden waterfall",
+                "A glowing, magical stone"
+            ],
+            "answer": 3
+        },
+        {
+            "text": "Mark and Sarah were on a camping trip deep in the wilderness when they stumbled upon an old, abandoned cabin. Inside, they found a journal filled with intriguing sketches of strange creatures and symbols. As they flipped through the pages, they realized it belonged to a mysterious explorer who had disappeared without a trace.",
+            "question": "What did Mark and Sarah find inside the abandoned cabin?",
+            "possible_answers": [
+                "A treasure map",
+                "An old photograph",
+                "A journal with sketches of strange creatures and symbols",
+                "A pile of gold coins"
+            ],
+            "answer": 2
+        },
+        {
+            "text": "Sarah always dreamed of becoming an astronaut, and one day, she received an acceptance letter from NASA. Her heart raced with excitement as she realized she would be part of a mission to explore Mars. Sarah knew that this opportunity was a once-in-a-lifetime chance to fulfill her lifelong dream.",
+            "question": "What did Sarah receive in the mail that made her heart race with excitement?",
+            "possible_answers": [
+                "A postcard from a friend",
+                "An acceptance letter from NASA",
+                "A package from an online store",
+                "A bill from the electric company"
+            ],
+            "answer": 1
+        },
+        {
+            "text": "On a quiet afternoon, Lily decided to explore her grandmother's attic. Among the dusty old trunks and forgotten relics, she discovered a mysterious, locked chest. After searching for the key, Lily finally managed to open it and found a stack of letters tied with a ribbon. These letters contained heartfelt messages from her grandmother to her grandfather during their youth.",
+            "question": "What did Lily find in her grandmother's attic?",
+            "possible_answers": [
+                "A dusty old trunk",
+                "A stack of vintage clothing",
+                "A collection of antique toys",
+                "A locked chest with letters"
             ],
             "answer": 3
         }
