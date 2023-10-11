@@ -6,8 +6,6 @@ import random
 from enum import Enum
 from supabase import create_client, Client
 
-NUM_OF_TRIALS = 5
-
 st.set_page_config(page_title="Cognitive Psyc")
 hide_streamlit_style = """
     <style>
