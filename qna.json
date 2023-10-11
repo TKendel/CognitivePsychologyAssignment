@@ -1,44 +1,4 @@
 {
-    "comperhnesion_paragraphs": [
-        {
-            "question_1": [
-                {
-                    "paragraph": "Once upon a time in a faraway land, there lived a curious little bunny named Benjamin. Benjamin had the softest fur you could ever imagine, and his big, floppy ears twitched with excitement whenever he discovered something new. I'm baby lomo jean shorts cloud bread freegan yes plz, craft beer yuccie. Photo booth la croix tbh williamsburg ugh tote bag neutral milk hotel gluten-free austin plaid man bun vaporware irony big mood chicharrones. Vinyl polaroid edison bulb jawn PBR&B irony truffaut tumblr ascot readymade gorpcore listicle adaptogen. Photo booth cardigan echo park selvage celiac glossier shaman fanny pack pug edison bulb single-origin coffee austin jean shorts meh jianbing.",
-                    "question": "What was the name of the bunny?",
-                    "possible_anwsers": [
-                        "Benny",
-                        "Benjamin",
-                        "Ben"
-                    ],
-                    "anwser": 1
-                }
-            ],
-            "question_2": [
-                {
-                    "paragraph": "One sunny morning, Benjamin hopped into the meadow, his favorite place in the whole wide world. The meadow was filled with colorful wildflowers and buzzing bees. It was a perfect day for adventure!",
-                    "question": "What type of flower was the meadow filled with?",
-                    "possible_anwsers": [
-                        "Wildflower",
-                        "Wold rose",
-                        "Wedelia"
-                    ],
-                    "anwser": 0
-                }
-            ],
-            "question_3": [
-                {
-                    "paragraph": "As Benjamin hopped along, he noticed a shiny object hidden among the tall grass. It was a sparkling golden key! Benjamin's heart raced with curiosity. 'I wonder where this key leads?' he thought, his nose twitching with excitement. And so, with the golden key in his paw, Benjamin's grand adventure began.",
-                    "question": "What was the item Benjamin found?",
-                    "possible_anwsers": [
-                        "Gold",
-                        "Key",
-                        "Sparkels"
-                    ],
-                    "anwser": 1
-                }
-            ]
-        }
-    ],
     "paragraphs": [
         "I'm baby lomo jean shorts cloud bread freegan yes plz, craft beer yuccie. Photo booth la croix tbh williamsburg ugh tote bag neutral milk hotel gluten-free austin plaid man bun vaporware irony big mood chicharrones. Vinyl polaroid edison bulb jawn PBR&B irony truffaut tumblr ascot readymade gorpcore listicle adaptogen. Photo booth cardigan echo park selvage celiac glossier shaman fanny pack pug edison bulb single-origin coffee austin jean shorts meh jianbing.",
         "Fanny pack sriracha letterpress austin JOMO live-edge ascot tbh 90's gastropub semiotics normcore cupping. Artisan cray raw denim, af normcore shaman bespoke marxism sustainable stumptown. Lyft gorpcore paleo fixie try-hard green juice. Activated charcoal keytar vibecession, hot chicken chambray messenger bag ramps gochujang dreamcatcher.",
@@ -47,7 +7,7 @@
     "instructions": [
         "Hi, thanks for participating in our experiment.",
         "This experiment you will be presented with paragraphs to read one at a time. After each paragraph there will be a question to test your understanding.",
-        "There will be 2 types of paragraphs that will be presented randomly. One will be a standard paragraph to read the other will be one where each sentence is highlighted at a constant pace.",
+        "There will be 2 types of paragraphs that will be presented randomly. One will be a standard paragraph to read the other will be one where each word is highlighted at a pace specified by you.",
         "This experiement will consist of 12 paragraphs. After each question feel free to take a quick break 15-30s."
     ],
     "updated_paragraphs": [
