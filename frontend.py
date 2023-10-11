@@ -7,6 +7,7 @@ from enum import Enum
 from supabase import create_client, Client
 
 NUM_OF_TRIALS = 5
+
 st.set_page_config(page_title="Cognitive Psyc")
 hide_streamlit_style = """
     <style>
@@ -56,9 +57,9 @@ def highlight_word(text, delay):
     for i in range(len(split_text)):
         time_per_word = len(split_text[i])/5
         highlighted_word = f"<span class='highlight blue'> {split_text[i]} </span>"
-        updated_text = "<div>" + \
+        updated_text = "<p style='font-size:1.5em'>" + \
             join_key.join(split_text[:i]) + highlighted_word + \
-            join_key.join(split_text[i+1:]) + "</div>"
+            join_key.join(split_text[i+1:]) + "</p>"
 
         placeholder.markdown(
             updated_text, unsafe_allow_html=True)
@@ -195,7 +196,7 @@ def question_screen():
 
 
 def highlight_screen():
-    st.subheader(str(st.session_state['current_trial']) + " out of " + str(NUM_OF_TRIALS) + " are left!" )
+    st.subheader(str(st.session_state['current_trial']) + " out of " + str(NUM_OF_TRIALS))
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
     placeholder = st.empty()
@@ -223,7 +224,7 @@ def stop_timer(start_time):
 
 
 def plain_screen():
-    st.subheader(str(st.session_state['current_trial']) + " out of " + str(NUM_OF_TRIALS) + " are left!" )
+    st.subheader(str(st.session_state['current_trial']) + " out of " + str(NUM_OF_TRIALS))
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
     placeholder = st.empty()
@@ -320,7 +321,7 @@ def calibration_screen():
     auto = st.checkbox('Check box to start testing different speeds')
     if auto:
         st.subheader('Highlight speed adjustment')
-        speed = st.slider("By draggin the slider from left to right, you increase the speed of the highlighter"  ,0.50, 7.0, value=2.0, step=0.25)
+        speed = st.slider("By dragging the slider from left to right, you increase the speed of the highlighter", 0.50, 7.0, value=2.0, step=0.25)
         st.button(
             'Yes, this is a good speed', on_click=update_speed, args=(speed,))
         highlight_word(ct, speed)
