@@ -194,7 +194,7 @@ def question_screen():
 
 
 def highlight_screen():
-    st.subheader(str(st.session_state['current_trial']) + " out of " + str(NUM_OF_TRIALS))
+    st.subheader(str(st.session_state['current_trial']) + " out of " + str(st.secrets['NUM_OF_TRIALS']))
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
     placeholder = st.empty()
@@ -222,7 +222,7 @@ def stop_timer(start_time):
 
 
 def plain_screen():
-    st.subheader(str(st.session_state['current_trial']) + " out of " + str(NUM_OF_TRIALS))
+    st.subheader(str(st.session_state['current_trial']) + " out of " + str(st.secrets['NUM_OF_TRIALS']))
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
     placeholder = st.empty()
