@@ -55,8 +55,7 @@ def highlight_word(text, delay):
     join_key = ' '
     for i in range(len(split_text)):
         time_per_word = len(split_text[i])/5
-        # highlighted_word = f"<span class='underline'> {split_text[i]} </span>"
-        highlighted_word = f"<span class='highlight red'> {split_text[i]} </span>"
+        highlighted_word = f"<span class='highlight blue'> {split_text[i]} </span>"
         updated_text = "<div>" + \
             join_key.join(split_text[:i]) + highlighted_word + \
             join_key.join(split_text[i+1:]) + "</div>"
@@ -77,7 +76,6 @@ def highlight_sentence(text, delay):
             optional_period = '.'
         # Get character count for each sentance and divide it by 5. On average per word it should take 1 sec to read it
         character_counter = len(''.join(split_text[i].split(" "))) / 5
-        # highlighted_word = f"{optional_period}<span class='underline'>{split_text[i]}.</span>"
         highlighted_word = f"{optional_period}<span class='highlight blue'>{split_text[i]}.</span>"
         updated_text = "<p style='font-size:1.5em'>" + \
             join_key.join(split_text[:i]) + highlighted_word + \
@@ -197,6 +195,7 @@ def question_screen():
 
 
 def highlight_screen():
+    st.subheader(str(st.session_state['current_trial']) + " out of " + str(NUM_OF_TRIALS) + " are left!" )
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
     placeholder = st.empty()
@@ -205,8 +204,7 @@ def highlight_screen():
     if start == True:
         placeholder.button('start', disabled=True, key='2')
         start_time = time.time()
-        # highlight_word(paragraph, 0.5)
-        highlight_sentence(paragraph, speed)
+        highlight_word(paragraph, speed)
         st.markdown('##')
         st.button('done', on_click=stop_timer,
                   args=(start_time, ))
@@ -225,6 +223,7 @@ def stop_timer(start_time):
 
 
 def plain_screen():
+    st.subheader(str(st.session_state['current_trial']) + " out of " + str(NUM_OF_TRIALS) + " are left!" )
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
     placeholder = st.empty()
@@ -251,8 +250,6 @@ def generate_table():
         arr_correct_response.append(tr.correct_response)
         arr_paragraph_type.append(tr.paragraph_type)
         arr_response_time.append(tr.response_time)
-        # st.write(
-        #     f'{tr.trial_num} - {tr.reading_time} - {tr.correct_response} - {tr.paragraph_type}')
     return pd.DataFrame(
         {
             "trial": arr_trial_num,
@@ -320,20 +317,17 @@ def save_data():
 
 def calibration_screen():
     ct = st.session_state['calibration_text']
-    # st.markdown(ct)
-    # speed = st.slider('What is a comfortable speed?', 0.05, 1.0, 0.4)
-    # highlight_word(ct, speed)
-    auto = st.checkbox('check box to start testing different speeds')
+    auto = st.checkbox('Check box to start testing different speeds')
     if auto:
-        speed = st.slider('What is a comfortable speed?',
-                          0.50, 7.0, value=2.0, step=0.25)
+        st.subheader('Highlight speed adjustment')
+        speed = st.slider("By draggin the slider from left to right, you increase the speed of the highlighter"  ,0.50, 7.0, value=2.0, step=0.25)
         st.button(
             'Yes, this is a good speed', on_click=update_speed, args=(speed,))
-        highlight_sentence(ct, speed)
+        highlight_word(ct, speed)
 
 
 def data_collection_screen():
-    st.text('Check the boxes if any are true')
+    st.text('Check the boxes if any are apply to you')
 
     is_dyslexic = st.checkbox('I have dyslexia')
     is_from_phone = st.checkbox('I completed this on my phone')
@@ -424,15 +418,3 @@ if st.session_state['state'].value == 5:  # END
 
     st.balloons()
     st.text("That's the end folks! ;)")
-
-    # df = generate_table()
-    # st.dataframe(df, use_container_width=True)
-
-    # csv = df.to_csv(index=False).encode('utf-8')
-    # st.download_button(
-    #     "Press to Download",
-    #     csv,
-    #     "file.csv",
-    #     "text/csv",
-    #     key='download-csv'
-    # )
