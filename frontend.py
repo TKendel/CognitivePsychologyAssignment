@@ -194,7 +194,8 @@ def question_screen():
 
 
 def highlight_screen():
-    st.subheader(str(st.session_state['current_trial']) + " out of " + str(st.secrets['NUM_OF_TRIALS']))
+    st.subheader(str(st.session_state['current_trial']) +
+                 " out of " + str(st.secrets['NUM_OF_TRIALS']))
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
     placeholder = st.empty()
@@ -222,7 +223,8 @@ def stop_timer(start_time):
 
 
 def plain_screen():
-    st.subheader(str(st.session_state['current_trial']) + " out of " + str(st.secrets['NUM_OF_TRIALS']))
+    st.subheader(str(st.session_state['current_trial']) +
+                 " out of " + str(st.secrets['NUM_OF_TRIALS']))
     current_par = st.session_state['current_par']
     paragraph = current_par['text']
     placeholder = st.empty()
@@ -283,6 +285,7 @@ def save_data():
     is_eng_main_lang = st.session_state['is_eng_main_lang']
     highlight_speed = st.session_state['highlight_speed']
     is_from_phone = st.session_state['is_from_phone']
+    age = st.session_state['age']
 
     data, _ = client.table('responses').insert(
         {"trial_num": tr.trial_num,
@@ -293,7 +296,8 @@ def save_data():
             "is_dyslexic": is_dyslexic,
             "is_eng_main": is_eng_main_lang,
             "highlight_speed": highlight_speed,
-            "is_from_phone": is_from_phone
+            "is_from_phone": is_from_phone,
+            "age": age
          }).execute()
     subject = data[1][0]['subject']
 
@@ -310,7 +314,8 @@ def save_data():
                 "is_dyslexic": is_dyslexic,
                 "is_eng_main": is_eng_main_lang,
                 "highlight_speed": highlight_speed,
-                "is_from_phone": is_from_phone
+                "is_from_phone": is_from_phone,
+                "age": age
             }).execute()
 
 
@@ -319,7 +324,8 @@ def calibration_screen():
     auto = st.checkbox('Check box to start testing different speeds')
     if auto:
         st.subheader('Highlight speed adjustment')
-        speed = st.slider("By dragging the slider from left to right, you increase the speed of the highlighter", 0.50, 7.0, value=2.0, step=0.25)
+        speed = st.slider(
+            "By dragging the slider from left to right, you increase the speed of the highlighter", 0.50, 7.0, value=2.0, step=0.25)
         st.button(
             'Yes, this is a good speed', on_click=update_speed, args=(speed,))
         highlight_word(ct, speed)
@@ -331,10 +337,12 @@ def data_collection_screen():
     is_dyslexic = st.checkbox('I have dyslexia')
     is_from_phone = st.checkbox('I completed this on my phone')
     is_eng_main_lang = st.checkbox('English is my main language')
+    age = st.slider('How old are you?', 0, 90, 25)
 
     st.session_state['is_dyslexic'] = is_dyslexic
     st.session_state['is_from_phone'] = is_from_phone
     st.session_state['is_eng_main_lang'] = is_eng_main_lang
+    st.session_state['age'] = age
 
     st.button('next', on_click=update_state)
 
